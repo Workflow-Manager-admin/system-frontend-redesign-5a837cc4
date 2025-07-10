@@ -1,0 +1,4 @@
+{
+    "command": "npm install && npm run build",
+    "working_directory": "/home/kavia/workspace/code-generation/system-frontend-redesign-5a837cc4/frontend_app"
+}
