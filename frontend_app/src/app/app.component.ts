@@ -60,8 +60,16 @@ export class AppComponent {
     { label: 'Log', section: 'log', icon: this.icons.log, bgColor: 'var(--accent-gray)' },
   ];
 
+  // PUBLIC_INTERFACE
+  selectSection(section: string) {
+    this.selectedSection = section;
+  }
+
   toggleSidebar() {
     this.sidebarCollapsed = !this.sidebarCollapsed;
   }
-  scrollSidebar() { /* stub for arrow chevrons: not implemented for static demo */ }
+  scrollSidebar(event?: Event) {
+    // stub: add sidebar scroll if overflowed, for now just prevent focus outline if clicked
+    if (event) { (event.target as HTMLElement).blur(); }
+  }
 }

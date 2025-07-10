@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --sidebar-bg: #f7f7f2;
+  --card-bg: #fff;
+  --accent-purple: #b085f7;
+  --accent-green: #33c7a5;
+  --accent-pink: #e877c9;
+  --accent-orange: #fabc60;
+  --accent-gold: #e6af34;
+  --accent-brown: #b87a3b;
+  --accent-cyan: #34d5a6;
+  --accent-light-green: #b0e889;
+  --accent-violet: #ceafe1;
+  --accent-gray: #e7e9e6;
+  --accent-olive: #bfc18e;
+  --primary-text: #21202f;
+  --muted-text: #7b7b7b;
+  --border-radius: 14px;
+  --card-shadow: 0 2px 8px rgba(90,60,150,0.10);
+  --sidebar-width: 72px;
+  --sidebar-width-collapsed: 46px;
+  --main-bg: #fafafb;
+  --card-gap: 18px;
+  --card-padding: 18px 22px;
+}

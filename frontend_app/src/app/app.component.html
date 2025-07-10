@@ -6,47 +6,56 @@
       <span class="sidebar-logo">🟢</span>
       <span class="sidebar-title" *ngIf="!sidebarCollapsed">Device Portal</span>
     </div>
+
     <nav class="sidebar-nav">
-      <button
-        class="sidebar-btn"
-        *ngFor="let nav of sidebarNav"
-        [ngStyle]="{'background': nav.bgColor}"
-        [title]="nav.label"
-        (click)="selectedSection = nav.section"
-        [class.active]="selectedSection === nav.section">
-        <span class="sidebar-icon" [innerHTML]="nav.icon"></span>
-        <span *ngIf="!sidebarCollapsed" class="sidebar-label">{{nav.label}}</span>
-      </button>
+      <ng-container *ngFor="let nav of sidebarNav">
+        <button
+          class="sidebar-btn"
+          [ngStyle]="{'background': nav.bgColor}"
+          [title]="nav.label"
+          (click)="selectSection(nav.section)"
+          [class.active]="selectedSection === nav.section"
+          [attr.aria-current]="selectedSection === nav.section ? 'page' : null">
+          <span class="sidebar-icon" [innerHTML]="nav.icon"></span>
+          <span *ngIf="!sidebarCollapsed" class="sidebar-label">{{nav.label}}</span>
+        </button>
+      </ng-container>
     </nav>
-    <div class="sidebar-chevron chevron-up" (click)="scrollSidebar()">
-      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M5 12l5-5 5 5" stroke="#888" stroke-width="2" fill="none"></path></svg>
+
+    <div style="flex:0 0 auto;">
+      <div class="sidebar-chevron chevron-up" tabindex="0" role="button" aria-label="Scroll up" (click)="scrollSidebar($event)" (keydown.enter)="scrollSidebar($event)">
+        <svg width="20" height="20" viewBox="0 0 20 20"><path d="M5 12l5-5 5 5" stroke="#888" stroke-width="2" fill="none"></path></svg>
+      </div>
+      <div class="sidebar-chevron chevron-down" tabindex="0" role="button" aria-label="Scroll down" (click)="scrollSidebar($event)" (keydown.enter)="scrollSidebar($event)">
+        <svg width="20" height="20" viewBox="0 0 20 20"><path d="M5 8l5 5 5-5" stroke="#888" stroke-width="2" fill="none"></path></svg>
+      </div>
     </div>
-    <div class="sidebar-chevron chevron-down" (click)="scrollSidebar()">
-      <svg width="20" height="20" viewBox="0 0 20 20"><path d="M5 8l5 5 5-5" stroke="#888" stroke-width="2" fill="none"></path></svg>
-    </div>
+
     <button class="sidebar-toggle" (click)="toggleSidebar()" aria-label="Toggle sidebar">
       <svg width="16" height="16" viewBox="0 0 16 16"><path [attr.d]="sidebarCollapsed ? 'M4 4l8 4-8 4z':'M12 12L4 8l8-4z'" fill="#888"/></svg>
     </button>
   </aside>
 
   <main class="dashboard-main">
-    <div class="dashboard-grid">
+    <section class="dashboard-grid">
       <!-- Device Info Card -->
-      <section class="dashboard-card card-device-info">
+      <article class="dashboard-card card-device-info">
         <div class="card-header">
           <span class="card-icon" [innerHTML]="icons.device"></span>
           <span class="card-title">Device Information</span>
         </div>
         <div class="card-content">
-          <div class="card-row"><span>Status:</span> <span class="inline-status ok">Online</span></div>
+          <div class="card-row"><span>Status:</span>
+            <span class="inline-status ok">Online</span>
+          </div>
           <div class="card-row"><span>Device Name:</span> Epsilon-3000</div>
           <div class="card-row"><span>IP:</span> 192.168.1.42</div>
           <div class="card-row"><span>Serial:</span> 00:1A:2B:3C:4D:5E</div>
         </div>
-      </section>
+      </article>
 
-      <!-- Performance: CPU & Memory -->
-      <section class="dashboard-card card-perf" style="grid-column: span 2;">
+      <!-- Performance Section -->
+      <article class="dashboard-card card-perf" style="grid-column: span 2;">
         <div class="card-header">
           <span class="card-icon" [innerHTML]="icons.cpu"></span>
           <span class="card-title">CPU Usage</span>
@@ -55,8 +64,8 @@
         <div class="card-content">
           <div class="progressbar" [style.width.%]="43"></div>
         </div>
-      </section>
-      <section class="dashboard-card card-perf" style="grid-column: span 1;">
+      </article>
+      <article class="dashboard-card card-perf" style="grid-column: span 1;">
         <div class="card-header">
           <span class="card-icon" [innerHTML]="icons.ram"></span>
           <span class="card-title">Memory</span>
@@ -65,62 +74,62 @@
         <div class="card-content">
           <div class="progressbar" [style.width.%]="39"></div>
         </div>
-      </section>
-      <section class="dashboard-card card-perf">
+      </article>
+      <article class="dashboard-card card-perf">
         <div class="card-header small">
           <span class="card-icon" [innerHTML]="icons.temp"></span>
           <span class="card-title">Temp</span>
           <span class="card-value accent-cyan">57°C</span>
         </div>
         <div class="card-content compact"></div>
-      </section>
-      <section class="dashboard-card card-perf">
+      </article>
+      <article class="dashboard-card card-perf">
         <div class="card-header small">
           <span class="card-icon" [innerHTML]="icons.uptime"></span>
           <span class="card-title">Uptime</span>
           <span class="card-value accent-cyan">3d 6h</span>
         </div>
         <div class="card-content compact"></div>
-      </section>
+      </article>
 
       <!-- Diagnostics -->
-      <section class="dashboard-card card-diagnostics">
+      <article class="dashboard-card card-diagnostics">
         <div class="card-header">
           <span class="card-icon" [innerHTML]="icons.diagnostics"></span>
           <span class="card-title">Diagnostics</span>
         </div>
         <div class="card-content pills">
-          <button class="pill-btn accent-pink">
+          <button class="pill-btn accent-pink" tabindex="0" role="button">
             <span class="pill-icon" [innerHTML]="icons.upload"></span>
             Upload Speed: <strong>9 Mbps</strong>
           </button>
-          <button class="pill-btn accent-pink">
+          <button class="pill-btn accent-pink" tabindex="0" role="button">
             <span class="pill-icon" [innerHTML]="icons.download"></span>
             Download Speed: <strong>37 Mbps</strong>
           </button>
         </div>
-      </section>
+      </article>
 
       <!-- Device Control -->
-      <section class="dashboard-card card-ctrl">
+      <article class="dashboard-card card-ctrl">
         <div class="card-header">
           <span class="card-icon" [innerHTML]="icons.control"></span>
           <span class="card-title">Device Control</span>
         </div>
         <div class="card-content pills">
-          <button class="large-btn accent-orange">
+          <button class="large-btn accent-orange" tabindex="0" role="button">
             <span class="btn-icon" [innerHTML]="icons.reboot"></span>
             Reboot
           </button>
-          <button class="large-btn accent-gold">
+          <button class="large-btn accent-gold" tabindex="0" role="button">
             <span class="btn-icon" [innerHTML]="icons.reset"></span>
             Factory Reset
           </button>
         </div>
-      </section>
+      </article>
 
       <!-- Connected Clients -->
-      <section class="dashboard-card card-clients">
+      <article class="dashboard-card card-clients">
         <div class="card-header">
           <span class="card-icon" [innerHTML]="icons.clients"></span>
           <span class="card-title">Connected Clients</span>
@@ -129,25 +138,25 @@
           <div class="client-count accent-light-green">5</div>
           <div class="client-desc">Devices connected</div>
         </div>
-      </section>
+      </article>
 
       <!-- Device Log -->
-      <section class="dashboard-card card-log">
+      <article class="dashboard-card card-log">
         <div class="card-header">
           <span class="card-icon" [innerHTML]="icons.log"></span>
           <span class="card-title">Device Log</span>
         </div>
         <div class="card-content pills">
-          <button class="pill-btn accent-olive">
+          <button class="pill-btn accent-olive" tabindex="0" role="button">
             <span class="pill-icon" [innerHTML]="icons.downloadAll"></span>
             Download All
           </button>
-          <button class="pill-btn accent-olive">
+          <button class="pill-btn accent-olive" tabindex="0" role="button">
             <span class="pill-icon" [innerHTML]="icons.downloadRecent"></span>
             Download Recent
           </button>
         </div>
-      </section>
-    </div>
+      </article>
+    </section>
   </main>
 </div>
